@@ -12,14 +12,14 @@ describe('* PART II: hashing it out *', function () {
 
   describe('`hash.simple._pad`', function () {
 
-    xit('increases the string to at least the given length', function () {
+    it('increases the string to at least the given length', function () {
       expect(hash.simple._pad).to.be.a('function');
       var padded = hash.simple._pad('words', 10);
       expect(padded).to.be.a('string');
       expect(padded).to.have.length(10);
     });
 
-    xit('does so by concatenating the string to its reverse until it\'s big enough', function () {
+    it('does so by concatenating the string to its reverse until it\'s big enough', function () {
       expect(hash.simple._pad('something', 18)).to.equal('somethinggnihtemos');
       // will go OVER the pad length
       expect(hash.simple._pad('foobar', 7)).to.equal('foobarraboof');
@@ -31,13 +31,13 @@ describe('* PART II: hashing it out *', function () {
 
   describe('`hash.simple._partition`', function () {
 
-    xit('divides the string into n pieces, each of the given length', function () {
+    it('divides the string into n pieces, each of the given length', function () {
       expect(hash.simple._partition).to.be.a('function');
       expect(hash.simple._partition('abc', 1)).to.eql(['a', 'b', 'c']);
       expect(hash.simple._partition('somethinglongernow', 3)).to.eql(['som', 'eth', 'ing', 'lon', 'ger', 'now']);
     });
 
-    xit('the final string is the remainder, and may be less than the given length', function () {
+    it('the final string is the remainder, and may be less than the given length', function () {
       expect(hash.simple._partition('odd', 2)).to.eql(['od', 'd']);
       expect(hash.simple._partition('thishasanevennumberofletters', 5)).to.eql(['thish', 'asane', 'vennu', 'mbero', 'flett', 'ers']);
     });
@@ -46,14 +46,14 @@ describe('* PART II: hashing it out *', function () {
 
   describe('`hash.simple._combine`', function () {
 
-    xit('accepts two equal length base64 strings and returns one of the same length', function () {
+    it('accepts two equal length base64 strings and returns one of the same length', function () {
       expect(hash.simple._combine).to.be.a('function');
       var combined = hash.simple._combine('foo', 'bar');
       expect(combined).to.be.a('string');
       expect(combined).to.have.length(3);
     });
 
-    xit('utilizes `base64.toDigits` and `base64.fromDigits`', function () {
+    it('utilizes `base64.toDigits` and `base64.fromDigits`', function () {
       chai.spy.on(base64, 'toDigits');
       chai.spy.on(base64, 'fromDigits');
       hash.simple._combine('elephant', 'anteater');
@@ -61,7 +61,7 @@ describe('* PART II: hashing it out *', function () {
       expect(base64.fromDigits).to.have.been.called();
     });
 
-    xit('combines the strings by XORing their digits then converting them back to base64', function () {
+    it('combines the strings by XORing their digits then converting them back to base64', function () {
       // read more about XOR here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators
       // any number XORed with itself outputs 0, e.g. 1034 ^ 1034 === 0, and 0 corresponds to base64 character 'a', so we get all 'a's
       expect(hash.simple._combine('Tajikistan', 'Tajikistan')).to.equal('aaaaaaaaaa');
@@ -69,7 +69,7 @@ describe('* PART II: hashing it out *', function () {
       expect(hash.simple._combine('tommarvoloriddle', 'iamlordvoldemort')).to.equal('BoahoawBffsmpnAx');
     });
 
-    xit('if either string is smaller, it pads the end with the XOR identity value (the character\'s digit equivalent should be zero)', function () {
+    it('if either string is smaller, it pads the end with the XOR identity value (the character\'s digit equivalent should be zero)', function () {
       // the "extra" part of the larger string should remain unchanged
       expect(hash.simple._combine('zebra', 'elephANT').slice(-3)).to.equal('ANT');
       expect(hash.simple._combine('zooMONSTERS', 'zoo')).to.equal('aaaMONSTERS');
